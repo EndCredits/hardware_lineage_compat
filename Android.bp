@@ -407,6 +407,24 @@ cc_library {
 }
 
 cc_library {
+    name: "libinput_shim",
+    srcs: [
+        "libinput/android_view_KeyEvent.cpp",
+        "libinput/Input.cpp",
+    ],
+    include_dirs: [
+        "frameworks/native/include",
+        "frameworks/native/libs/ui/include",
+    ],
+    shared_libs: [
+        "libandroid_runtime",
+        "libinput",
+    ],
+    compile_multilib: "64",
+    system_ext_specific: true,
+}
+
+cc_library {
     name: "libmeminfo_shim",
     shared_libs: ["libmeminfo"],
     srcs: [
@@ -455,6 +473,24 @@ cc_library_shared {
     ],
     system_ext_specific: true,
     vendor_available: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libui-v30",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["vndk/v30/arm/libui-v30.so"],
+        },
+        android_arm64: {
+            srcs: ["vndk/v30/arm64/libui-v30.so"],
+        },
+    },
+    compile_multilib: "both",
+    check_elf_files: false,
 }
 
 cc_library_shared {
